@@ -1,0 +1,11 @@
+C:\Users\mshak_000\Desktop\Net2\Net2\bin\Debug\Net2.exe.config
+C:\Users\mshak_000\Desktop\Net2\Net2\bin\Debug\Net2.exe
+C:\Users\mshak_000\Desktop\Net2\Net2\bin\Debug\Net2.pdb
+C:\Users\mshak_000\Desktop\Net2\Net2\obj\Debug\Net2.csprojResolveAssemblyReference.cache
+C:\Users\mshak_000\Desktop\Net2\Net2\obj\Debug\Net2.Form1.resources
+C:\Users\mshak_000\Desktop\Net2\Net2\obj\Debug\Net2.Properties.Resources.resources
+C:\Users\mshak_000\Desktop\Net2\Net2\obj\Debug\Net2.csproj.GenerateResource.Cache
+C:\Users\mshak_000\Desktop\Net2\Net2\obj\Debug\Net2.csproj.CoreCompileInputs.cache
+C:\Users\mshak_000\Desktop\Net2\Net2\obj\Debug\Net2.exe
+C:\Users\mshak_000\Desktop\Net2\Net2\obj\Debug\Net2.pdb
+C:\Users\mshak_000\Desktop\Net2\Net2\bin\Debug\ZedGraph.dll
