@@ -82,10 +82,14 @@ namespace Net2
 
             private void DrawGraph()
         {
+            
             turn = 0;
             int j = 0;
-            double[] mass3y = new double[100];
-            double[] mass3dlina = new double[100];
+            double rejected = 0;
+            double accepted = 0;
+            
+            double[] mass3y = new double[decimal.ToInt64(numericUpDown1.Value)];
+            double[] mass3dlina = new double[decimal.ToInt64(numericUpDown1.Value)];
             // Получим панель для рисования
             GraphPane pane = Graph1.GraphPane;
             GraphPane pane2 = Graph2.GraphPane;
@@ -96,6 +100,8 @@ namespace Net2
             pane3.CurveList.Clear();
             // Создадим список точек
             PointPairList list1 = new PointPairList();
+            PointPairList list1_1 = new PointPairList();
+            PointPairList list1_2 = new PointPairList();
             PointPairList list2 = new PointPairList();
             PointPairList list2_2 = new PointPairList();
             PointPairList list3 = new PointPairList();
@@ -105,13 +111,17 @@ namespace Net2
             double valueTreatment = 0;
             double valueTreatmentPast = 0;
             list3.Add(0, 0);
+            list1_2.Add(0, 0);
+            list1_1.Add(0, 0);
             // Заполняем список точек
-            for (int i = 0; i <5; i++)
+            for (int i = 0; i < decimal.ToDouble(numericUpDown1.Value); i++)
             {
                 mass3y[i] = y;
                 list2.Add(y, 10); // заполняем значения для второго графика
                 list1.Add(y, x);  // заполняем значения для первого графика
-               // list3.Add(y, turn);
+                x++;
+                list1.Add(y, x);
+
                 valuePuasson = rand.Generate(decimal.ToDouble(numericUpDown4.Value));
 
 
@@ -122,62 +132,92 @@ namespace Net2
                 {
                     list2_2.Add(y, 5);
                     list2_2.Add(valueTreatment, 5);
-                    mass3dlina[i] = valueTreatment;
-                    //list3.Add(valueTreatmentPast, turn);
 
-                    //if (turn > 0)
-                    //{
-                    //turn--;
-                    // list3.Add(valueTreatmentPast, turn);
-                    // }
+                    mass3dlina[i] = valueTreatment;
                 }
                 else
                 {
                     valueTreatment += valueTreatmentPast;
                     mass3dlina[i] = valueTreatment;
                     list2_2.Add(valueTreatmentPast, 5);
-                    list2_2.Add(valueTreatment, 5);
-
-                   // list3.Add(y, turn);
-                    //turn++;
-                    //list3.Add(y, turn);    
+                    list2_2.Add(valueTreatment, 5);  
                 }
                 valueTreatmentPast = valueTreatment;
                 list2_2.Add(PointPair.Missing, PointPair.Missing);
                 y += valuePuasson;
-                x++;
+                
             }
-
-            for (int i = 0; i < 4; i++)
+            //заполняем точки для графика очереди
+            for (int i = 0; i < decimal.ToDouble(numericUpDown1.Value) - 1; i++)
             {
+                //пока есть точки концов продолжительности между двумя входными запросами уменьшаем график на 1
+                while (turn > 0 && mass3y[i] < mass3dlina[j] && mass3y[i + 1] > mass3dlina[j])
+                {
+                        list3.Add(mass3dlina[j], turn);
+                        turn--;
+                        list3.Add(mass3dlina[j], turn);
+                        j++;
+                }
+                //если точка входящего запроса меньше точки длины предыдущего то увеличиваем график на 1
                 if (mass3y[i + 1] < mass3dlina[i])
                 {
-                    list3.Add(mass3y[i + 1], turn);
-                    turn++;
-                    list3.Add(mass3y[i + 1], turn);
-                    j++;
+                    if (turn != decimal.ToDouble(numericUpDown3.Value))
+                    {
+                        list3.Add(mass3y[i + 1], turn);
+                        turn++;
+                        list3.Add(mass3y[i + 1], turn);
+                        //заполняем график обработанных запросов точками
+                        list1_2.Add(mass3dlina[i], accepted);
+                        accepted++;
+                        list1_2.Add(mass3dlina[i], accepted);
+                    }
+                    else //заполняем график отказов точками
+                    {
+                        list1_1.Add(mass3y[i+1], rejected);
+                        rejected++;
+                        list1_1.Add(mass3y[i+1], rejected);
+                    }
                 }
-                if (turn > 0 && mass3y[i + 1] + mass3dlina[i] < mass3y[i + 1] + mass3y[i + 2])
+                else
                 {
-                    list3.Add(mass3dlina[i], turn);
-                    turn--;
-                    list3.Add(mass3dlina[i], turn);
+                    j++;//показатель того сколько отрезков продолжительности прошли
+                    //заполняем график обработанных запросов точками
+                    list1_2.Add(mass3dlina[i], accepted);
+                    accepted++;
+                    list1_2.Add(mass3dlina[i], accepted);
                 }
             }
-
-                // Создадим кривую с названием "Sinc",
-                // которая будет рисоваться голубым цветом (Color.Blue),
-                // Опорные точки выделяться не будут (SymbolType.None)
-                LineItem myCurve2 = pane2.AddCurve("Sinc", list2, Color.Blue, SymbolType.VDash);
-            LineItem myCurve2_2 = pane2.AddCurve("Sinc", list2_2, Color.Blue, SymbolType.VDash);
-            LineItem myCurve = pane.AddCurve("Sinc", list1, Color.Blue, SymbolType.None);
-            LineItem myCurve3 = pane3.AddCurve("Sinc", list3, Color.Red, SymbolType.None);
+            //дорисовываем концовку графика
+            while (turn > 0)
+            {
+                list3.Add(mass3dlina[j], turn);
+                turn--;
+                list3.Add(mass3dlina[j], turn);
+                j++;
+            }
+            list1_2.Add(mass3dlina[decimal.ToInt64(numericUpDown1.Value) - 1], accepted);
+            list1_2.Add(mass3dlina[decimal.ToInt64(numericUpDown1.Value) - 1], accepted+1);
+            // Создадим кривую с названием "Sinc",
+            // которая будет рисоваться голубым цветом (Color.Blue),
+            // Опорные точки выделяться не будут (SymbolType.None)
+            LineItem myCurve2 = pane2.AddCurve("Заявка", list2, Color.Blue, SymbolType.VDash);
+            LineItem myCurve2_2 = pane2.AddCurve("Процесс обработки заявки", list2_2, Color.Blue, SymbolType.VDash);  
+            LineItem myCurve1 = pane.AddCurve("Всего", list1, Color.Blue, SymbolType.None);
+            LineItem myCurve1_1 = pane.AddCurve("Отказ", list1_1, Color.Red, SymbolType.None);
+            LineItem myCurve1_2 = pane.AddCurve("Обработаны", list1_2, Color.Purple, SymbolType.None);
+            LineItem myCurve3 = pane3.AddCurve("Очередь", list3, Color.Red, SymbolType.None);
             myCurve2.Line.IsVisible = false;
+
+
+
+
+
+
             // Вызываем метод AxisChange (), чтобы обновить данные об осях.
             // В противном случае на рисунке будет показана только часть графика,
             // которая умещается в интервалы по осям, установленные по умолчанию
-             Graph2.AxisChange();
-            Graph3.AxisChange();
+            //Graph2.AxisChange();
+            // Graph3.AxisChange();
             // Обновляем график
             Graph1.Invalidate();
             Graph2.Invalidate();
@@ -187,13 +227,24 @@ namespace Net2
         private void numericUpDown9_ValueChanged(object sender, EventArgs e)
         {
             GraphPane pane = Graph1.GraphPane;
+
             pane.XAxis.Max = decimal.ToDouble(numericUpDown9.Value);
+            //pane.YAxis.MinAuto = true;
+            //pane.YAxis.MaxAuto = true;
+
+
+           
             GraphPane pane2 = Graph2.GraphPane;
             pane2.XAxis.Max = decimal.ToDouble(numericUpDown9.Value);
+            GraphPane pane3 = Graph3.GraphPane;
+            pane3.XAxis.Max = decimal.ToDouble(numericUpDown9.Value);
             Graph1.AxisChange();
             Graph1.Invalidate();
             Graph2.AxisChange();
             Graph2.Invalidate();
+            Graph3.AxisChange();
+            Graph3.Invalidate();
+
 
         }
 
