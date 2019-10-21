@@ -53,6 +53,8 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.numericUpDown9 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown10 = new System.Windows.Forms.NumericUpDown();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
@@ -277,28 +279,43 @@
             // 
             // Graph1
             // 
-            this.Graph1.IsShowPointValues = false;
             this.Graph1.Location = new System.Drawing.Point(434, 9);
             this.Graph1.Name = "Graph1";
-            this.Graph1.PointValueFormat = "G";
+            this.Graph1.ScrollGrace = 0D;
+            this.Graph1.ScrollMaxX = 0D;
+            this.Graph1.ScrollMaxY = 0D;
+            this.Graph1.ScrollMaxY2 = 0D;
+            this.Graph1.ScrollMinX = 0D;
+            this.Graph1.ScrollMinY = 0D;
+            this.Graph1.ScrollMinY2 = 0D;
             this.Graph1.Size = new System.Drawing.Size(669, 198);
             this.Graph1.TabIndex = 17;
             // 
             // Graph2
             // 
-            this.Graph2.IsShowPointValues = false;
             this.Graph2.Location = new System.Drawing.Point(434, 213);
             this.Graph2.Name = "Graph2";
-            this.Graph2.PointValueFormat = "G";
+            this.Graph2.ScrollGrace = 0D;
+            this.Graph2.ScrollMaxX = 0D;
+            this.Graph2.ScrollMaxY = 0D;
+            this.Graph2.ScrollMaxY2 = 0D;
+            this.Graph2.ScrollMinX = 0D;
+            this.Graph2.ScrollMinY = 0D;
+            this.Graph2.ScrollMinY2 = 0D;
             this.Graph2.Size = new System.Drawing.Size(669, 198);
             this.Graph2.TabIndex = 18;
             // 
             // Graph3
             // 
-            this.Graph3.IsShowPointValues = false;
             this.Graph3.Location = new System.Drawing.Point(434, 417);
             this.Graph3.Name = "Graph3";
-            this.Graph3.PointValueFormat = "G";
+            this.Graph3.ScrollGrace = 0D;
+            this.Graph3.ScrollMaxX = 0D;
+            this.Graph3.ScrollMaxY = 0D;
+            this.Graph3.ScrollMaxY2 = 0D;
+            this.Graph3.ScrollMinX = 0D;
+            this.Graph3.ScrollMinY = 0D;
+            this.Graph3.ScrollMinY2 = 0D;
             this.Graph3.Size = new System.Drawing.Size(669, 198);
             this.Graph3.TabIndex = 19;
             // 
@@ -354,24 +371,54 @@
             // 
             // numericUpDown9
             // 
-            this.numericUpDown9.Location = new System.Drawing.Point(12, 553);
+            this.numericUpDown9.Location = new System.Drawing.Point(12, 499);
             this.numericUpDown9.Maximum = new decimal(new int[] {
             10000,
             0,
             0,
             0});
             this.numericUpDown9.Name = "numericUpDown9";
-            this.numericUpDown9.Size = new System.Drawing.Size(90, 20);
+            this.numericUpDown9.Size = new System.Drawing.Size(184, 20);
             this.numericUpDown9.TabIndex = 23;
             this.numericUpDown9.ValueChanged += new System.EventHandler(this.numericUpDown9_ValueChanged);
             // 
             // numericUpDown10
             // 
-            this.numericUpDown10.Location = new System.Drawing.Point(111, 553);
+            this.numericUpDown10.Increment = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.numericUpDown10.Location = new System.Drawing.Point(11, 538);
+            this.numericUpDown10.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
             this.numericUpDown10.Name = "numericUpDown10";
-            this.numericUpDown10.Size = new System.Drawing.Size(86, 20);
+            this.numericUpDown10.Size = new System.Drawing.Size(185, 20);
             this.numericUpDown10.TabIndex = 24;
             this.numericUpDown10.ValueChanged += new System.EventHandler(this.numericUpDown10_ValueChanged);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label9.Location = new System.Drawing.Point(8, 522);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(109, 13);
+            this.label9.TabIndex = 25;
+            this.label9.Text = "Начальное время t()";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label10.Location = new System.Drawing.Point(8, 483);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(160, 13);
+            this.label10.TabIndex = 26;
+            this.label10.Text = "Рассматриваемый диапазон t";
             // 
             // Form1
             // 
@@ -379,6 +426,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(1110, 622);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.numericUpDown10);
             this.Controls.Add(this.numericUpDown9);
             this.Controls.Add(this.textBox1);
@@ -404,7 +453,6 @@
             this.Controls.Add(this.button1);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
@@ -446,6 +494,8 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.NumericUpDown numericUpDown9;
         private System.Windows.Forms.NumericUpDown numericUpDown10;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
     }
 }
 
